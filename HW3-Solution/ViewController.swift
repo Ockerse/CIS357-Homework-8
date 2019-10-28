@@ -16,6 +16,9 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     @IBOutlet weak var toUnits: UILabel!
     @IBOutlet weak var calculatorHeader: UILabel!
     
+    //var historyDelegate:HistoryTableViewControllerDelegate?
+    var entries : [Conversion] = []
+    
     var currentMode : CalculatorMode = .Length
     
     override func viewDidLoad() {
@@ -67,6 +70,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
                     let convKey =  LengthConversionKey(toUnits: tUnits, fromUnits: fUnits)
                     let toVal = fromVal * lengthConversionTable[convKey]!;
                     dest?.text = "\(toVal)"
+                    
+                    entries.append(Conversion(fromVal: fromVal, toVal: toVal, mode: currentMode, fromUnits: fromUnits.text!, toUnits: toUnits.text!, timestamp: Date()))
                 }
             case .Volume:
                 var fUnits, tUnits : VolumeUnit
@@ -81,6 +86,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
                     let convKey =  VolumeConversionKey(toUnits: tUnits, fromUnits: fUnits)
                     let toVal = fromVal * volumeConversionTable[convKey]!;
                     dest?.text = "\(toVal)"
+                    
+                    entries.append(Conversion(fromVal: fromVal, toVal: toVal, mode: currentMode, fromUnits: fromUnits.text!, toUnits: toUnits.text!, timestamp: Date()))
                 }
             }
         }
@@ -124,8 +131,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingsSegue" {
-            clearPressed(sender as! UIButton)
-            if let  target = segue.destination.children[0] as? SettingsViewController {
+            //clearPressed(sender as! UIButton)
+            if let  target = segue.destination as? SettingsViewController {
                 target.mode = currentMode
                 target.fUnits = fromUnits.text
                 target.tUnits = toUnits.text
