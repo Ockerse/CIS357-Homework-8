@@ -8,15 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, SettingsViewControllerDelegate {
-
+class ViewController: UIViewController, SettingsViewControllerDelegate, HistoryTableViewControllerDelegate {
+    
     @IBOutlet weak var fromField: UITextField!
     @IBOutlet weak var toField: UITextField!
     @IBOutlet weak var fromUnits: UILabel!
     @IBOutlet weak var toUnits: UILabel!
     @IBOutlet weak var calculatorHeader: UILabel!
-    
-    //var historyDelegate:HistoryTableViewControllerDelegate?
+
     var entries : [Conversion] = []
     
     var currentMode : CalculatorMode = .Length
@@ -37,7 +36,8 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
     }
-    
+  
+    // MARK: - Calculation
     @IBAction func calculatePressed(_ sender: UIButton) {
         // determine source value of data for conversion and dest value for conversion
         var dest : UITextField?
@@ -93,7 +93,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         }
         self.view.endEditing(true)
     }
-    
+ //MARK: - Button controls
     @IBAction func clearPressed(_ sender: UIButton) {
         self.fromField.text = ""
         self.toField.text = ""
@@ -128,7 +128,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         calculatorHeader.text = "\(currentMode.rawValue) Conversion Calculator"
         
     }
-    
+ // MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingsSegue" {
             //clearPressed(sender as! UIButton)
@@ -139,8 +139,17 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
                 target.delegate = self
             }
         }
+        
+        if segue.identifier == "historySegue" {
+            if let target = segue.destination as? HistoryTableViewController {
+                target.entries = entries
+                target.historyDelegate = self
+            }
+        }
     }
 
+    // MARK: - Delegation
+    
     func settingsChanged(fromUnits: LengthUnit, toUnits: LengthUnit)
     {
         self.fromUnits.text = fromUnits.rawValue
@@ -152,6 +161,15 @@ class ViewController: UIViewController, SettingsViewControllerDelegate {
         self.fromUnits.text = fromUnits.rawValue
         self.toUnits.text = toUnits.rawValue
     }
+    
+    func selectEntry(entry: Conversion) {
+          self.fromField.text = String(entry.fromVal)
+          self.toField.text = String(entry.toVal)
+          self.fromUnits.text = entry.fromUnits
+          self.toUnits.text = entry.toUnits
+          currentMode = entry.mode
+         calculatorHeader.text = "\(currentMode.rawValue) Conversion Calculator"
+      }
 }
 
 extension ViewController : UITextFieldDelegate {
