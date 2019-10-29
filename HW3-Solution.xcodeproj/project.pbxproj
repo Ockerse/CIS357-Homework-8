@@ -117,8 +117,8 @@
 			children = (
 				9E1E65462142BF8800F4E8CB /* AppDelegate.swift */,
 				9E1E65482142BF8800F4E8CB /* ViewController.swift */,
-				9E1E654A2142BF8800F4E8CB /* Main.storyboard */,
 				99233875236761920077BFE6 /* HistoryTableViewController.swift */,
+				9E1E654A2142BF8800F4E8CB /* Main.storyboard */,
 				992338792367A4200077BFE6 /* HistoryTableViewCell.swift */,
 				9E1E65742142C38700F4E8CB /* DecimalMinusTextField.swift */,
 				9E1E654D2142BF8900F4E8CB /* Assets.xcassets */,

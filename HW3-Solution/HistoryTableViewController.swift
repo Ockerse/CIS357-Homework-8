@@ -109,11 +109,12 @@ class HistoryTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath) as! HistoryTableViewCell 
+      
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
         if let entry = self.tableViewData?[indexPath.section].entries[indexPath.row] {
-            cell.conversionLabel.text = "\(entry.fromVal) \(entry.fromUnits) = \(entry.toVal) \(entry.toUnits)"
-            cell.timestampLabel.text = "\(entry.timestamp.description)"
-            cell.thumbnail.image = UIImage(imageLiteralResourceName: entry.mode == .Volume ? "volume" : "length")
+            cell.textLabel?.text = "\(entry.fromVal) \(entry.fromUnits) = \(entry.toVal) \(entry.toUnits)"
+            cell.detailTextLabel?.text = "\(entry.timestamp.description)"
+            //cell.thumbnail.image = UIImage(imageLiteralResourceName: entry.mode == .Volume ? "volume" : "length")
         }
         return cell
     }
