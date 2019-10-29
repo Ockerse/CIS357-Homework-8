@@ -16,11 +16,15 @@ protocol HistoryTableViewControllerDelegate {
 
 class HistoryTableViewController: UITableViewController {
     
-    var entries : [Conversion]? = []
+    var entries : [Conversion]? = [
+        Conversion(fromVal: 1, toVal: 1760, mode: .Length, fromUnits: LengthUnit.Miles.rawValue, toUnits: LengthUnit.Yards.rawValue, timestamp: Date.distantPast),
+        Conversion(fromVal: 1, toVal: 4, mode: .Volume, fromUnits: VolumeUnit.Gallons.rawValue, toUnits: VolumeUnit.Quarts.rawValue, timestamp: Date.distantFuture)]
     
     var historyDelegate:HistoryTableViewControllerDelegate?
-    var BACKGROUND_COLOR = UIColor(red: 1, green: 0.8, blue: 0, alpha: 1)
-    var FOREGROUND_COLOR = UIColor(red: 0, green: 0.7373, blue: 0.1451, alpha: 1)
+    var BACKGROUND_COLOR = UIColor(red:0.000, green:0.369, blue:0.420,
+    alpha:1.00)
+    var FOREGROUND_COLOR = UIColor(red: 0.937, green: 0.820,
+    blue: 0.576, alpha: 1.0)
     
     
     override func viewDidLoad() {
@@ -108,11 +112,11 @@ class HistoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: "cellId", for: indexPath)
-        if let entry = self.entries?[indexPath.row]{
-            cell.textLabel?.text = "\(entry.fromVal) \(entry.fromUnits) = \(entry.toVal) \(entry.toUnits)"
-            cell.detailTextLabel?.text = "\(entry.timestamp.description)"
-            //cell.thumbnail.image = UIImage(imageLiteralResourceName: entry.mode == .Volume ? "volume" : "length")
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "FancyCell", for: indexPath) as! HistoryTableViewCell
+        if let entry = self.tableViewData?[indexPath.section].entries[indexPath.row]{
+            cell.conversionLabel?.text = "\(entry.fromVal) \(entry.fromUnits) = \(entry.toVal) \(entry.toUnits)"
+            cell.timestampLabel?.text = "\(entry.timestamp.description)"
+            cell.thumbnail.image = UIImage(imageLiteralResourceName: entry.mode == .Volume ? "volume" : "length")
         }
         return cell
     }

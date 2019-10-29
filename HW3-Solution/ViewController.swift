@@ -142,7 +142,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate, HistoryT
         
         if segue.identifier == "historySegue" {
             if let target = segue.destination as? HistoryTableViewController {
-                target.entries = entries
+                target.entries?.append(contentsOf: entries)
                 target.historyDelegate = self
             }
         }
