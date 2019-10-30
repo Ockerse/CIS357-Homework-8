@@ -132,7 +132,7 @@ class ViewController: UIViewController, SettingsViewControllerDelegate, HistoryT
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "settingsSegue" {
             //clearPressed(sender as! UIButton)
-            if let  target = segue.destination as? SettingsViewController {
+            if let target = segue.destination as? SettingsViewController {
                 target.mode = currentMode
                 target.fUnits = fromUnits.text
                 target.tUnits = toUnits.text
